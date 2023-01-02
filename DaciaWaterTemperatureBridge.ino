@@ -51,7 +51,7 @@ void loop()
       Serial.print(temperature, DEC);
       Serial.print(" ºC");  
       Serial.print(" Output = ");
-      Serial.print(outputValue);    º
+      Serial.print(outputValue);
     }
     Serial.println();
   }
@@ -59,26 +59,28 @@ void loop()
 
 int mapPWM(int temperature)
 {
-  if (temperature <= 40)return 86;
-  if (temperature <=45) return map(temperature, 45, 40, 82, 86);
-  if (temperature <=50) return map(temperature, 50, 45, 80, 82);
-  if (temperature <=55) return map(temperature, 55, 50, 76, 80);
-  if (temperature <=60) return map(temperature, 60, 55, 74, 76);
-  if (temperature <=65) return map(temperature, 65, 60, 71, 74);
-  if (temperature <=70) return map(temperature, 70, 65, 67, 71);
-  if (temperature <=75) return map(temperature, 75, 70, 64, 67);
-  if (temperature <=80) return map(temperature, 80, 75, 60, 64);
-  if (temperature <=85) return map(temperature, 85, 80, 54, 60);
-  if (temperature <=90) return map(temperature, 90, 85, 50, 54);
-  if (temperature <=95) return map(temperature, 95, 90, 47, 50);
-  if (temperature <=100) return map(temperature, 100, 95, 40, 47);
-  if (temperature <=105) return map(temperature, 105, 100, 36, 40);
-  if (temperature <=110) return map(temperature, 110, 105, 30, 36);
-  if (temperature <=115) return map(temperature, 115, 110, 25, 30);
-  if (temperature <=120) return map(temperature, 120, 115, 19, 25);
-  if (temperature <=130) return map(temperature, 130, 120, 16, 19);
-  if (temperature <=135) return map(temperature, 135, 130, 11, 16);
-  if (temperature <=145) return map(temperature, 145, 135, 5, 11);
+  if (temperature <= 40)return 98;
+  if (temperature <=45) return map(temperature, 45, 40, 94, 98);
+  if (temperature <=50) return map(temperature, 50, 45, 93, 94);
+  if (temperature <=55) return map(temperature, 55, 50, 91, 93);
+  if (temperature <=60) return map(temperature, 60, 55, 89, 91);
+  if (temperature <=65) return map(temperature, 65, 60, 87, 89);
+  if (temperature <=70) return map(temperature, 70, 65, 84, 87);
+  if (temperature <=75) return map(temperature, 75, 70, 80, 84);
+  if (temperature <=80) return map(temperature, 80, 75, 76, 80);
+  if (temperature <=85) return map(temperature, 85, 80, 71, 76);
+  if (temperature <=90) return map(temperature, 90, 85, 67, 71);
+  if (temperature <=95) return map(temperature, 95, 90, 63, 67);
+  if (temperature <=100) return map(temperature, 100, 95, 57, 63);
+  if (temperature <=105) return map(temperature, 105, 100, 52, 57);
+  if (temperature <=110) return map(temperature, 110, 105, 47, 52);
+  if (temperature <=115) return map(temperature, 115, 110, 43, 47);
+  if (temperature <=120) return map(temperature, 120, 115, 37, 43);
+  if (temperature <=125) return map(temperature, 125, 120, 33, 37);
+  if (temperature <=130) return map(temperature, 130, 125, 29, 33);
+  if (temperature <=135) return map(temperature, 135, 130, 25, 29);
+  if (temperature <=140) return map(temperature, 140, 135, 20, 25);
+  if (temperature <=145) return map(temperature, 140, 135, 20, 25);
   if (temperature > 145) return 0;
   return 0;
 }
