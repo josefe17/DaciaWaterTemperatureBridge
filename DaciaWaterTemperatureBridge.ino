@@ -39,8 +39,8 @@ void setup() {
   // Start CAN bus controller SPI driver
   CAN1.begin(CAN_500KBPS, MCP_8MHz); // init can bus : baudrate = 500k / HIGH SPEED CAN BUS    
   pinMode(2, INPUT_PULLUP); //Interrupt pin
-  displaySetupForTemperature();
-  Serial.println("Started..."); 
+  displaySetupForTemperature();  
+  Serial.println("Started...");
 }
 
 void loop() 
@@ -57,7 +57,7 @@ void loop()
       // read value and remove offset
       temperature = rxBuf[0] - 40;
       // update display  temperature
-       //displayUpdateTemperature(temperature);
+      displayUpdateTemperature(temperature);
       // print the results to the Serial Monitor:
       Serial.print("Received temperature = ");
       Serial.print(temperature, DEC);
@@ -73,6 +73,7 @@ void displaySetupForTemperature()
   display.setTextSize(4);
   display.setTextColor(SSD1306_WHITE);
   display.clearDisplay();
+  display.display();
 }
 
 void displayUpdateTemperature(int temperature)
