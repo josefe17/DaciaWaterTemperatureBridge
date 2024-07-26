@@ -10,6 +10,8 @@
 #define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
 #define SCREEN_ADDRESS 0x3C ///< See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
 
+const int relayPin = 3;
+
 long unsigned int rxId; // Received ID
 unsigned char len = 0; // Received data length
 unsigned char rxBuf[8]; //Reception buffer
@@ -39,7 +41,9 @@ void setup() {
   // Start CAN bus controller SPI driver
   CAN1.begin(CAN_500KBPS, MCP_8MHz); // init can bus : baudrate = 500k / HIGH SPEED CAN BUS    
   pinMode(2, INPUT_PULLUP); //Interrupt pin
-  displaySetupForTemperature();  
+  displaySetupForTemperature();
+  digitalWrite(relayPin, 0);
+  pinMode(relayPin, OUTPUT);  
   Serial.println("Started...");
 }
 
@@ -62,6 +66,21 @@ void loop()
       Serial.print("Received temperature = ");
       Serial.print(temperature, DEC);
       Serial.print(" ºC");
+    }
+    if(rxId == 0x5DE) // MMI_BCM_CANHS_R_01 frame
+    {
+      Serial.print("MMI BCM 1 message!");
+      Serial.print("Any flashers status = ");
+      if ((rxBuf[0] & 0b01100000) > 0)
+      {
+        Serial.println("ON");
+        digitalWrite(relayPin, 1);
+      }
+      else
+      {
+        Serial.println("OFF");
+        digitalWrite(relayPin, 0);
+      } 
     }
     Serial.println();
   }
