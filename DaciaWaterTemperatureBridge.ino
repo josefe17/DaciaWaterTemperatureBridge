@@ -13,6 +13,7 @@ int mapPWM(int temperature);
 const int analogOutPin = 3; // Analog output pin that the gauge is attached
 
 int temperature = 0;
+unsigned char tempRaw = 0;
 int outputValue = 0;        // value output to the PWM (analog out)
 
 void setup() {
@@ -20,7 +21,7 @@ void setup() {
   Serial.begin(115200);
 
  //PWM as fast as possible
-  TCCR2B = TCCR2B & B11111000 | B00000001;
+  TCCR2B = (TCCR2B & B11111000) | B00000001;
 
   // Start CAN bus controller SPI driver
   CAN1.begin(CAN_500KBPS, MCP_8MHz); // init can bus : baudrate = 500k / 
@@ -34,26 +35,29 @@ void loop()
   // Read CAN bus
   if(!digitalRead(2)) // If pin 2 is low, read receive buffer
   {
-    Serial.print("Interrupt! ");
     CAN1.readMsgBuf(&len, rxBuf); // CAN bus data read 
     unsigned long rxId = CAN1.getCanId(); // Retrieve data ID
     if(rxId == 0x5DA) // If temperature data
     {
-      Serial.print("Coolant temperature message! ");
-      // read value and remove offset
-      temperature = rxBuf[0] - 40;
-      // map it into the range of the analog out:  
+      // read value
+      tempRaw = rxBuf[0];
+      // cast from BCD (hex) to dec
+      //temperature = (tempRaw / 16) * 10 + tempRaw % 16;      
+      temperature = tempRaw - 40;
+      // map it into the range of the analog out: 
       outputValue = mapPWM(temperature);      
       // change the analog out value:
       analogWrite(analogOutPin, outputValue);      
       // print the results to the Serial Monitor:
       Serial.print("Received temperature = ");
       Serial.print(temperature, DEC);
-      Serial.print(" ºC");  
-      Serial.print(" Output = ");
-      Serial.print(outputValue);    º
+      Serial.print(" ºC (0x");
+      Serial.print(tempRaw, HEX);
+      Serial.print(")");  
+      Serial.print("\t Output = ");
+      Serial.println(outputValue);
+      
     }
-    Serial.println();
   }
 }
 
