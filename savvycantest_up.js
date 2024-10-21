@@ -1,5 +1,5 @@
 var incrementSteps = 1;
-var lowerLimit = 40;
+var lowerLimit = -40;
 var upperLimit = 150;
 
 var cycleTemperatureDelay = 100; //In ms
@@ -19,7 +19,7 @@ function tick()
 	cycleTemperature();
 }
 
-/*
+
 function cycleTemperature()
 {	
 	var temperatureRaw = temperatureDecimal + 40;
@@ -50,8 +50,9 @@ function cycleTemperature()
 		}
 	}
 }
-*/
 
+
+/*
 function cycleTemperature()
 {	
 	if ((temperatureDecimal + incrementSteps) <= upperLimit + 1)
@@ -62,3 +63,4 @@ function cycleTemperature()
 		temperatureDecimal  += incrementSteps;
 	}
 }
+*/
